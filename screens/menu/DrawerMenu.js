@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import close from "../../assets/close.png";
-import { Searchbar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Modal,
@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { IconButton } from "react-native-paper";
+
 //import ListCategories from "../Components/Category/ListCategories";
 const HomeIcon = () => <Icon name="home" />;
 const TreeIcon = () => <Icon name="park" />;
@@ -25,63 +26,88 @@ const TryIcon = () => <Icon name="engineering" />;
 const ResIcon = () => <Icon name="person" />;
 const AccountIcon = () => <Icon name="account-circle" />;
 const LogOutIcon = () => <Icon name="logout" />;
+
 export default function DrawerMenu() {
-  const [modalVisible, setModalVisible] = useState(true);
+  const navigation = useNavigation();
+  // const { navigation } = props;
+
+  const navigateToScreen = (id) => {
+    setModalVisible(false);
+    navigation.navigate(id);
+  };
+  // const navigateToScreen = (id) => {
+  //   // setModalVisible(false);
+  //   navigation.navigate(id);
+  // };
+  const [modalVisible, setModalVisible] = useState(false);
   const options = [
     {
       title: "Inicio",
+      id: "ArbolVisualization",
       icon: <HomeIcon />,
     },
     {
       title: "Arbolización",
+      id: "ArbolVisualization",
       icon: <TreeIcon />,
       subOptions: [
         {
           title: "Registro de árboles",
+          id: "arbolRegister",
           icon: <TreeIcon />,
         },
         {
           title: "Visualización de mapa",
+          id: "ArbolVisualization",
           icon: <MapIcon />,
         },
       ],
     },
     {
       title: "Mantenimiento",
+      id: "Familias",
       icon: <LeafIcon />,
       subOptions: [
         {
           title: "Familias",
+          id: "Familias",
           icon: <LeafIcon />,
         },
         {
           title: "Especies",
+          id: "Especies",
           icon: <SpeciesIcon />,
         },
         {
           title: "Zonas",
+          id: "Zonas",
           icon: <ZoneIcon />,
         },
         {
           title: "Estados de evaluacion",
+          id: "Evaluacion",
           icon: <TestIcon />,
         },
         {
           title: "Tipo de tratamiento",
+          id: "Tratamiento",
           icon: <TryIcon />,
         },
         {
           title: "Responsables",
+          id: "Responsables",
           icon: <ResIcon />,
         },
       ],
     },
     {
       title: "Mi cuenta",
+      id: "Account",
       icon: <AccountIcon />,
       subOptions: [
         {
           title: "Cerrar sesion",
+          id: "logout",
           icon: <LogOutIcon />,
         },
       ],
@@ -89,7 +115,11 @@ export default function DrawerMenu() {
   ];
 
   const renderOption = (option) => (
-    <TouchableOpacity key={option.title} style={Styles.option}>
+    <TouchableOpacity
+      key={option.title}
+      style={Styles.option}
+      onPress={() => navigateToScreen(option.id)}
+    >
       {option.icon}
       <Text style={Styles.optionTitle}>{option.title}</Text>
     </TouchableOpacity>
@@ -98,7 +128,11 @@ export default function DrawerMenu() {
   const renderSubOptions = (subOptions) => (
     <View style={Styles.subOptionsContainer}>
       {subOptions.map((subOption) => (
-        <TouchableOpacity key={subOption.title} style={Styles.subOption}>
+        <TouchableOpacity
+          key={subOption.title}
+          style={Styles.subOption}
+          onPress={() => navigateToScreen(subOption.id)}
+        >
           {subOption.icon}
           <Text style={Styles.subOptionTitle}>{subOption.title}</Text>
         </TouchableOpacity>
@@ -143,8 +177,6 @@ export default function DrawerMenu() {
               </View>
             ))}
           </View>
-
-          {/* <ListCategories setModalVisible={setModalVisible} /> */}
         </View>
       </Modal>
     </View>
