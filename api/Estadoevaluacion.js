@@ -1,7 +1,7 @@
 import { API_URL } from "../api/Constants";
-export async function getEspecies() {
+export async function getEvaluaciones() {
   try {
-    const url = `${API_URL}/api/especies?populate=*`;
+    const url = `${API_URL}/api/estado-evolucions`;
     const response = await fetch(url);
     const result = await response.json();
     //console.log(response);
@@ -12,7 +12,7 @@ export async function getEspecies() {
   }
 }
 
-export async function RegisterEspecie(nombre, descripcion, familia, token) {
+export async function RegisterEvaluaciones(nombre, descripcion, token) {
   try {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
@@ -22,7 +22,6 @@ export async function RegisterEspecie(nombre, descripcion, familia, token) {
       data: {
         nombre: nombre,
         descripcion: descripcion,
-        familia: familia,
       },
     });
 
@@ -33,7 +32,10 @@ export async function RegisterEspecie(nombre, descripcion, familia, token) {
       redirect: "follow",
     };
 
-    const response = await fetch(API_URL + "/api/especies", requestOptions);
+    const response = await fetch(
+      API_URL + "/api/estado-evolucions",
+      requestOptions
+    );
     const result = await response.text();
 
     if (response.ok) {
