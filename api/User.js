@@ -38,3 +38,26 @@ export async function registerApi(dni, nombre, apellidos, correo, clave) {
     throw error;
   }
 }
+
+export async function loginApi(correo, clave) {
+  try {
+    var formData = new FormData();
+
+    formData.append("identifier", correo);
+    formData.append("password", clave);
+
+    var requestOptions = {
+      method: "POST",
+      body: formData, // Corregir la asignación de la variable formData
+      redirect: "follow",
+    };
+
+    const response = await fetch(API_URL + "/api/auth/local", requestOptions);
+    const result = await response.json();
+    //console.log(result);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

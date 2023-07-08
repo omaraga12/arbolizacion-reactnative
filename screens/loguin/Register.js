@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { registerApi } from "../../api/User";
 import Loading from "../../utils/Loading.js";
-import { useNavigation } from "@react-navigation/native";
 
 export default function Register(props) {
   const [email, setEmail] = useState("");
@@ -18,7 +17,7 @@ export default function Register(props) {
   const [clave, setClave] = useState("");
   const [loading, setLoading] = useState(false);
   const { changeForm } = props;
-  const navigation = useNavigation();
+
   const RegisterUser = async () => {
     if (clave.length > 5) {
       setLoading(true);
@@ -80,7 +79,7 @@ export default function Register(props) {
             style={styles.buttonContainer}
             onPress={RegisterUser}
           >
-            <Text style={styles.buttonText}>INGRESAR</Text>
+            <Text style={styles.buttonText}>REGISTRARSE</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

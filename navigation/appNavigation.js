@@ -1,7 +1,5 @@
-import { NavigationContainer } from "@react-navigation/native";
-
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
 
 import ArbolRegister from ".././screens/ArbolRegister";
 import ArbolVisualization from ".././screens/ArbolVisualization";
@@ -12,17 +10,20 @@ import Responsables from ".././screens/Responsables";
 import Tratamiento from ".././screens/Tratamiento";
 import Zonas from ".././screens/Zonas";
 import Loguin from "../screens/loguin/Auth";
-
-export default function AppNavigation() {
+import Logout from "../screens/loguin/Logout";
+import { getTokenApi } from "../api/token";
+import jwtDecode from "jwt-decode";
+import { View } from "react-native";
+export default function AppNavigation(props) {
   const Stack = createStackNavigator();
-  //LOGUIN
+  const { tipo } = props;
 
   //------
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="arbolRegister"
-        component={ArbolRegister}
+        component={tipo === null ? Loguin : ArbolRegister}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -58,6 +59,66 @@ export default function AppNavigation() {
       <Stack.Screen
         name="Zonas"
         component={Zonas}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Account"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="logout"
+        component={Logout}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function AppNavigation2() {
+  const Stack = createStackNavigator();
+
+  //------
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="arbolRegister"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ArbolVisualization"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Especies"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Evaluacion"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Familias"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Responsables"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Tratamiento"
+        component={Loguin}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Zonas"
+        component={Loguin}
         options={{ headerShown: false }}
       />
       <Stack.Screen
