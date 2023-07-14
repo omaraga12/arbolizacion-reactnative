@@ -98,6 +98,11 @@ export default function DrawerMenu() {
           id: "Responsables",
           icon: <ResIcon />,
         },
+        {
+          title: "Programacion",
+          id: "Programacion",
+          icon: <ResIcon />,
+        },
       ],
     },
     {

@@ -11,9 +11,12 @@ import Tratamiento from ".././screens/Tratamiento";
 import Zonas from ".././screens/Zonas";
 import Loguin from "../screens/loguin/Auth";
 import Logout from "../screens/loguin/Logout";
+import Programacion from "../screens/Programacion";
+import Horario from "../screens/Horario";
 import { getTokenApi } from "../api/token";
 import jwtDecode from "jwt-decode";
 import { View } from "react-native";
+import Actividad from "../screens/Actividad";
 export default function AppNavigation(props) {
   const Stack = createStackNavigator();
   const { tipo } = props;
@@ -42,6 +45,11 @@ export default function AppNavigation(props) {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Programacion"
+        component={Programacion}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Familias"
         component={Familias}
         options={{ headerShown: false }}
@@ -52,6 +60,11 @@ export default function AppNavigation(props) {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Horarios"
+        component={Horario}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Tratamiento"
         component={Tratamiento}
         options={{ headerShown: false }}
@@ -59,6 +72,11 @@ export default function AppNavigation(props) {
       <Stack.Screen
         name="Zonas"
         component={Zonas}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Actividad"
+        component={Actividad}
         options={{ headerShown: false }}
       />
       <Stack.Screen
