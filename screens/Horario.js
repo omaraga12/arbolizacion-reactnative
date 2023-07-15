@@ -66,6 +66,7 @@ export default function Horario({ route }) {
   const goToActividades = (id, nombre) => {
     navigation.navigate("Actividad", { id: id, actividadNombre: nombre });
   };
+
   const register = async () => {
     if (
       dia.length > 0 &&

@@ -15,7 +15,7 @@ export async function getEspecies() {
 export async function RegisterEspecie(nombre, descripcion, familia, token) {
   try {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + token);
+    //myHeaders.append("Authorization", "Bearer " + token);
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({

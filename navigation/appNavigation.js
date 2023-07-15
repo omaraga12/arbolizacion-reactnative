@@ -17,6 +17,7 @@ import { getTokenApi } from "../api/token";
 import jwtDecode from "jwt-decode";
 import { View } from "react-native";
 import Actividad from "../screens/Actividad";
+import ArbolEditing from "../screens/ArbolEditing";
 export default function AppNavigation(props) {
   const Stack = createStackNavigator();
   const { tipo } = props;
@@ -87,6 +88,11 @@ export default function AppNavigation(props) {
       <Stack.Screen
         name="logout"
         component={Logout}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="arbolEditing"
+        component={ArbolEditing}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
