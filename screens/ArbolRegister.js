@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import * as Location from "expo-location";
+//import * as Location from "expo-location";
 
 import {
   ActualizarArboles,
@@ -19,7 +19,7 @@ import {
   getArboles,
 } from "../api/Arbol";
 import { Picker } from "@react-native-picker/picker";
-import Geolocation from "react-native-geolocation-service";
+import * as Location from "expo-location";
 import Loading from "../utils/Loading";
 import { map } from "lodash";
 import { getZonas } from "../api/Zona";
@@ -40,7 +40,8 @@ export default function ArbolRegister() {
   const [fecha_nacimiento, setFecha_nacimiento] = useState(
     new Date().toISOString()
   );
-
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   //const [programacionID, setProgramacionID] = useState(null);
   const [especies, setEspecies] = useState(null);
@@ -71,6 +72,17 @@ export default function ArbolRegister() {
   useEffect(() => {
     (async () => {
       fetch();
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permiso para acceder a la ubicacion denegado");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setCoor_latitud(location.coords.latitude.toString());
+      setCoor_longitud(location.coords.longitude.toString());
+      //console.log(location);
     })();
   }, []);
   const goToEditar = (id) => {
@@ -142,6 +154,18 @@ export default function ArbolRegister() {
       }
     }
   };
+  const handleLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permiso para acceder a la ubicacion denegado");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+    setCoor_latitud(location.coords.latitude.toString());
+    setCoor_longitud(location.coords.longitude.toString());
+  };
   const handleEditar = (id, descripciom, latitu, longiud) => {
     setEditing(true);
     setIdSelected(id);
@@ -199,6 +223,7 @@ export default function ArbolRegister() {
             value={coor_longitud}
             onChangeText={(text) => setCoor_longitud(text)}
             keyboardType="numeric"
+            editable={false}
           />
           <TextInput
             style={styles.input}
@@ -206,8 +231,13 @@ export default function ArbolRegister() {
             value={coor_latitud}
             onChangeText={(text) => setCoor_latitud(text)}
             keyboardType="numeric"
+            editable={false}
           />
-
+          <Button
+            color="blue"
+            title="Actualizar ubicacion"
+            onPress={handleLocation}
+          />
           <View
             style={{ borderColor: "gray", borderWidth: 1, marginBottom: 8 }}
           >

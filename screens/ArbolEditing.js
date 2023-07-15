@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   Button,
+  Image,
 } from "react-native";
 import ValidadorEliminar from "./ValidadorEliminar";
 
@@ -18,7 +19,7 @@ import { getZonas } from "../api/Zona";
 import { getEspecies } from "../api/Especies";
 import { getFamilias } from "../api/Familia";
 import { getTokenApi } from "../api/token";
-
+import jwt_decode from "jwt-decode";
 import { map } from "lodash";
 import { Picker } from "@react-native-picker/picker";
 import Loading from "../utils/Loading";
@@ -27,14 +28,14 @@ export default function ArbolEditing({ route }) {
   const { id } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [descripcion, setDescripcion] = useState("");
-  const [coor_latitud, setCoor_latitud] = useState("");
-  const [coor_longitud, setCoor_longitud] = useState("");
-  const [especieID, setEspecieId] = useState("");
-  const [zonaId, setZonaID] = useState("");
-  const [familiaId, setFamiliaID] = useState("");
+  const [descripcion, setDescripcion] = useState(null);
+  const [coor_latitud, setCoor_latitud] = useState(null);
+  const [coor_longitud, setCoor_longitud] = useState(null);
+  const [especieID, setEspecieId] = useState(null);
+  const [zonaId, setZonaID] = useState(null);
+  const [familiaId, setFamiliaID] = useState(null);
   const [foto, setfoto] = useState(null);
-  const [fecha_nacimiento, setFecha_nacimiento] = useState("");
+  const [fecha_nacimiento, setFecha_nacimiento] = useState(null);
   const [zonas, setZonas] = useState(null);
   const [arboles, setArboles] = useState(null);
   const [familias, setFamilias] = useState(null);
@@ -72,10 +73,37 @@ export default function ArbolEditing({ route }) {
     setFamilias(responseFamilias.data);
     // console.log(responseArboles.data);
 
-    setDescripcion(responseArboles.data.attributes.descripcion);
-    setFecha_nacimiento(responseArboles.data.attributes.fecha_nacimiento);
-    setCoor_latitud(responseArboles.data.attributes.coor_latitud.toString());
-    setCoor_longitud(responseArboles.data.attributes.coor_longitud.toString());
+    // setDescripcion(responseArboles.data.attributes.descripcion);
+    // setFecha_nacimiento(responseArboles.data.attributes.fecha_nacimiento);
+    // setCoor_latitud(responseArboles.data.attributes.coor_latitud.toString());
+    // setCoor_longitud(responseArboles.data.attributes.coor_longitud.toString());
+    // setEspecieId(responseArboles.data.attributes.especie.data.id);
+    // setFamiliaID(responseArboles.data.attributes.familia.data.id);
+    // setZonaID(responseArboles.data.attributes.zona.data.id);
+
+    if (descripcion === null) {
+      setDescripcion(responseArboles.data.attributes.descripcion);
+    }
+    if (fecha_nacimiento === null) {
+      setFecha_nacimiento(responseArboles.data.attributes.fecha_nacimiento);
+    }
+    if (coor_latitud === null) {
+      setCoor_latitud(responseArboles.data.attributes.coor_latitud.toString());
+    }
+    if (coor_longitud === null) {
+      setCoor_longitud(
+        responseArboles.data.attributes.coor_longitud.toString()
+      );
+    }
+    if (especieID === null) {
+      setEspecieId(responseArboles.data.attributes.especie.data.id);
+    }
+    if (familiaId === null) {
+      setFamiliaID(responseArboles.data.attributes.familia.data.id);
+    }
+    if (zonaId === null) {
+      setZonaID(responseArboles.data.attributes.zona.data.id);
+    }
 
     setLoading(false);
   };
@@ -137,6 +165,19 @@ export default function ArbolEditing({ route }) {
 
           <ScrollView>
             <View style={styles.formContainer}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("../assets/arbol.png")} // Ruta local a la imagen o una URL
+                  style={styles.imagen}
+                />
+              </View>
+
               <TextInput
                 style={styles.input}
                 placeholder="Nombre"
@@ -287,7 +328,7 @@ const styles = StyleSheet.create({
   },
   imagen: {
     //width: 100,
-    height: 200,
-    resizeMode: "repeat",
+    height: 150,
+    resizeMode: "center",
   },
 });
